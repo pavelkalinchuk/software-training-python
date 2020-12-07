@@ -41,6 +41,7 @@ class TestAddNewGroup(unittest.TestCase):
         return True
     
 
+    @property
     def is_alert_present(self):
         try: self.wd.switch_to_alert()
         except NoAlertPresentException as e: return False
