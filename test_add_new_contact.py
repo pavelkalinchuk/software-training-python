@@ -31,7 +31,7 @@ class TestAddNewContact(unittest.TestCase):
         wd.find_element_by_name("submit").click()
         # Return home page
         wd.find_element_by_link_text("home page").click()
-        # Timeout
+        # Timeout for watching result
         time.sleep(5)
         # Logout
         wd.find_element_by_link_text("Logout").click()
