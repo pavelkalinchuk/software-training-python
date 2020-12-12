@@ -11,8 +11,7 @@ class TestAddNewContact(unittest.TestCase):
 
     def test_add_new_contact(self):
         wd = self.wd
-        # Open home page
-        wd.get("https://localhost/addressbook/")
+        self.open_home_page(wd)
         # Authorization
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
@@ -35,7 +34,10 @@ class TestAddNewContact(unittest.TestCase):
         time.sleep(5)
         # Logout
         wd.find_element_by_link_text("Logout").click()
-    
+
+    def open_home_page(self, wd):
+       wd.get("https://localhost/addressbook/")
+
     def tearDown(self):
         self.wd.quit()
 
