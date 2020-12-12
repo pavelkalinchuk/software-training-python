@@ -30,7 +30,6 @@ class TestAddNewContact(unittest.TestCase):
         wd.find_element_by_link_text("Logout").click()
 
     def authorization(self, wd):
-        # Authorization
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
