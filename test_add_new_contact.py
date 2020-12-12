@@ -13,7 +13,20 @@ class TestAddNewContact(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.authorization(wd)
-        # Add new contact
+        self.add_new_contact(wd)
+        self.return_home_page(wd)
+        self.logout(wd)
+
+    def logout(self, wd):
+        wd.find_element_by_link_text("Logout").click()
+
+    def return_home_page(self, wd):
+        # Return home page
+        wd.find_element_by_link_text("home page").click()
+        # Timeout for watching result
+        time.sleep(5)
+
+    def add_new_contact(self, wd):
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -22,12 +35,6 @@ class TestAddNewContact(unittest.TestCase):
         wd.find_element_by_name("lastname").clear()
         wd.find_element_by_name("lastname").send_keys("last_name")
         wd.find_element_by_name("submit").click()
-        # Return home page
-        wd.find_element_by_link_text("home page").click()
-        # Timeout for watching result
-        time.sleep(5)
-        # Logout
-        wd.find_element_by_link_text("Logout").click()
 
     def authorization(self, wd):
         wd.find_element_by_name("user").click()
