@@ -14,7 +14,13 @@ class TestAddNewContact(unittest.TestCase):
         wd = self.wd
         self.open_home_page(wd)
         self.authorization(wd, username="admin", password="secret")
-        self.add_new_contact(wd, Contact(first_name="first_name", last_name="last_name", middle_name="middle_name", address="Москва, ул. Тестовая, 1", email="test@mail.com", phone_mobile="+79161234567"))
+        self.add_new_contact(wd, Contact(
+            first_name="Иван",
+            last_name="Иванов",
+            middle_name="Иванович",
+            address="Москва, ул. Тестовая, 1",
+            email="test@mail.com",
+            phone_mobile="+79161234567"))
         self.return_home_page(wd)
         self.logout(wd)
 
