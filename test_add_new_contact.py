@@ -12,13 +12,7 @@ class TestAddNewContact(unittest.TestCase):
     def test_add_new_contact(self):
         wd = self.wd
         self.open_home_page(wd)
-        # Authorization
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
-        wd.find_element_by_xpath("//input[@value='Login']").click()
+        self.authorization(wd)
         # Add new contact
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
@@ -34,6 +28,15 @@ class TestAddNewContact(unittest.TestCase):
         time.sleep(5)
         # Logout
         wd.find_element_by_link_text("Logout").click()
+
+    def authorization(self, wd):
+        # Authorization
+        wd.find_element_by_name("user").click()
+        wd.find_element_by_name("user").clear()
+        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("pass").clear()
+        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def open_home_page(self, wd):
        wd.get("https://localhost/addressbook/")
