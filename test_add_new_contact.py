@@ -12,30 +12,30 @@ class TestAddNewContact(unittest.TestCase):
     def test_add_new_contact(self):
         wd = self.wd
         self.open_home_page(wd)
-        self.authorization(wd)
-        self.add_new_contact(wd)
+        self.authorization(wd, username="admin", password="secret")
+        self.add_new_contact(wd, first_name="first_name", last_name="last_name")
         self.return_home_page(wd)
         self.logout(wd)
 
     def open_home_page(self, wd):
         wd.get("https://localhost/addressbook/")
 
-    def authorization(self, wd):
+    def authorization(self, wd, username, password):
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys("admin")
+        wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys("secret")
+        wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
-    def add_new_contact(self, wd):
+    def add_new_contact(self, wd, first_name, last_name):
         wd.find_element_by_link_text("add new").click()
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys("first_name")
+        wd.find_element_by_name("firstname").send_keys(first_name)
         wd.find_element_by_name("lastname").click()
         wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys("last_name")
+        wd.find_element_by_name("lastname").send_keys(last_name)
         wd.find_element_by_name("submit").click()
 
     def return_home_page(self, wd):
