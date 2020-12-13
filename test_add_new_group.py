@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from selenium import webdriver
 from group import Group
 
@@ -10,6 +9,7 @@ def open_home_page(wd):
 
 
 def login(wd, username, password):
+    open_home_page(wd)
     wd.find_element_by_name("user").click()
     wd.find_element_by_name("user").clear()
     wd.find_element_by_name("user").send_keys(username)
@@ -23,6 +23,7 @@ def open_page_with_groups(wd):
 
 
 def create_group(wd, group):
+    open_page_with_groups(wd)
     # Creating new group
     wd.find_element_by_name("new").click()
     # Fill group firm
@@ -35,6 +36,7 @@ def create_group(wd, group):
     wd.find_element_by_name("group_footer").send_keys(group.footer)
     # Submit group creation
     wd.find_element_by_name("submit").click()
+    return_groups_page(wd)
 
 
 def return_groups_page(wd):
@@ -52,20 +54,14 @@ class TestAddNewGroup(unittest.TestCase):
 
     def test_add_new_group(self):
         wd = self.wd
-        open_home_page(wd)
         login(wd, username="admin", password="secret")
-        open_page_with_groups(wd)
         create_group(wd, Group(name="automate name", header="automate header", footer="automate footer"))
-        return_groups_page(wd)
         logout(wd)
 
     def test_add_new_empty_group(self):
         wd = self.wd
-        open_home_page(wd)
         login(wd, username="admin", password="secret")
-        open_page_with_groups(wd)
         create_group(wd, Group(name="", header="", footer=""))
-        return_groups_page(wd)
         logout(wd)
 
     def tearDown(self):

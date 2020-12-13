@@ -12,7 +12,6 @@ class TestAddNewContact(unittest.TestCase):
 
     def test_add_new_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.authorization(wd, username="admin", password="secret")
         self.add_new_contact(wd, Contact(
             first_name="Иван",
@@ -21,13 +20,13 @@ class TestAddNewContact(unittest.TestCase):
             address="Москва, ул. Тестовая, 1",
             email="test@mail.com",
             phone_mobile="+79161234567"))
-        self.return_home_page(wd)
         self.logout(wd)
 
     def open_home_page(self, wd):
         wd.get("https://localhost/addressbook/")
 
     def authorization(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -56,6 +55,7 @@ class TestAddNewContact(unittest.TestCase):
         wd.find_element_by_name("mobile").clear()
         wd.find_element_by_name("mobile").send_keys(contact.phone_mobile)
         wd.find_element_by_name("submit").click()
+        self.return_home_page(wd)
 
     def return_home_page(self, wd):
         # Return home page
