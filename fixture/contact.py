@@ -35,4 +35,4 @@ class ContactHelper:
         # Return home page
         wd.find_element_by_link_text("home page").click()
         # Timeout for watching result
-        time.sleep(5)
+        time.sleep(2)
