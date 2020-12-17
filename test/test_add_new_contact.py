@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from contact import Contact
-from appcontact import Appcontact
+from model.contact import Contact
+from fixture.appcontact import Appcontact
 
 
 @pytest.fixture
@@ -12,7 +12,7 @@ def appcontact(request):
 
 
 def test_add_new_contact(appcontact):
-    appcontact.authorization(username="admin", password="secret")
+    appcontact.session_contact.authorization(username="admin", password="secret")
     appcontact.add_new_contact(Contact(
         first_name="Иван",
         last_name="Иванов",
@@ -20,4 +20,4 @@ def test_add_new_contact(appcontact):
         address="Москва, ул. Тестовая, 1",
         email="test@mail.com",
         phone_mobile="+79161234567"))
-    appcontact.logout()
+    appcontact.session_contact.logout()
