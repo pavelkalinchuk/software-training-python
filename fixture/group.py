@@ -6,7 +6,8 @@ class GroupHelper:
     def __init__(self, appgroup):
         self.appgroup = appgroup
 
-    def fill_group_firm(self, group, wd):
+    def fill_group_firm(self, group):
+        wd = self.appgroup.wd
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
         wd.find_element_by_name("group_name").send_keys(group.name)
@@ -26,7 +27,7 @@ class GroupHelper:
         self.open_page_with_groups()
         # Creating new group
         wd.find_element_by_name("new").click()
-        self.fill_group_firm(group, wd)
+        self.fill_group_firm(group)
         # Submit group creation
         wd.find_element_by_name("submit").click()
         self.return_groups_page()
@@ -36,20 +37,23 @@ class GroupHelper:
         wd = self.appgroup.wd
         self.open_page_with_groups()
         # Choosing a group in list
-        wd.find_element_by_name("selected[]").click()
+        self.select_first_group()
         # Pressing Edit button
         wd.find_element_by_xpath("(//input[@name='edit'])[2]").click()
-        # Enter modify
-        self.fill_group_firm(group, wd)
+        self.fill_group_firm(group)
         # Apply changes
         wd.find_element_by_name("update").click()
         self.return_groups_page()
         time.sleep(2)
 
+    def select_first_group(self):
+        wd = self.appgroup.wd
+        wd.find_element_by_name("selected[]").click()
+
     def delete_first_group(self):
         wd = self.appgroup.wd
         self.open_page_with_groups()
-        wd.find_element_by_name("selected[]").click()
+        self.select_first_group()
         wd.find_element_by_name("delete").click()
         self.return_groups_page()
         time.sleep(2)
