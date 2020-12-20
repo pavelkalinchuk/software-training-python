@@ -8,15 +8,22 @@ class GroupHelper:
 
     def fill_group_firm(self, group):
         wd = self.appgroup.wd
-        wd.find_element_by_name("group_name").click()
-        wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(group.name)
-        wd.find_element_by_name("group_header").click()
-        wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(group.header)
-        wd.find_element_by_name("group_footer").click()
-        wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(group.footer)
+        self.change_field_value("group_name", group.name)
+        self.change_field_value("group_header", group.header)
+        self.change_field_value("group_footer", group.footer)
+        # wd.find_element_by_name("group_header").click()
+        # wd.find_element_by_name("group_header").clear()
+        # wd.find_element_by_name("group_header").send_keys(group.header)
+        # wd.find_element_by_name("group_footer").click()
+        # wd.find_element_by_name("group_footer").clear()
+        # wd.find_element_by_name("group_footer").send_keys(group.footer)
+
+    def change_field_value(self, field_name, text):
+        wd = self.appgroup.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
 
     def open_page_with_groups(self):
         wd = self.appgroup.wd
