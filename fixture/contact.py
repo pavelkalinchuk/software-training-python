@@ -6,9 +6,7 @@ class ContactHelper:
     def __init__(self, appcontact):
         self.appcontact = appcontact
 
-    def add_new_contact(self, contact):
-        wd = self.appcontact.wd
-        wd.find_element_by_link_text("add new").click()
+    def fill_contact_firm(self, contact, wd):
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.first_name)
@@ -27,21 +25,18 @@ class ContactHelper:
         wd.find_element_by_name("mobile").click()
         wd.find_element_by_name("mobile").clear()
         wd.find_element_by_name("mobile").send_keys(contact.phone_mobile)
+
+    def add_new_contact(self, contact):
+        wd = self.appcontact.wd
+        wd.find_element_by_link_text("add new").click()
+        self.fill_contact_firm(contact, wd)
         wd.find_element_by_name("submit").click()
         self.return_home_page()
 
     def modify_contact(self, contact):
         wd = self.appcontact.wd
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.first_name)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.last_name)
-        wd.find_element_by_name("address").click()
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
+        self.fill_contact_firm(contact, wd)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
         self.return_home_page()
 
