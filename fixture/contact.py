@@ -6,27 +6,6 @@ class ContactHelper:
     def __init__(self, appcontact):
         self.appcontact = appcontact
 
-    def fill_contact_firm(self, contact):
-        wd = self.appcontact.wd
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(contact.first_name)
-        wd.find_element_by_name("middlename").click()
-        wd.find_element_by_name("middlename").clear()
-        wd.find_element_by_name("middlename").send_keys(contact.middle_name)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(contact.last_name)
-        wd.find_element_by_name("address").click()
-        wd.find_element_by_name("address").clear()
-        wd.find_element_by_name("address").send_keys(contact.address)
-        wd.find_element_by_name("email").click()
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(contact.email)
-        wd.find_element_by_name("mobile").click()
-        wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(contact.phone_mobile)
-
     def add_new_contact(self, contact):
         wd = self.appcontact.wd
         wd.find_element_by_link_text("add new").click()
@@ -40,6 +19,21 @@ class ContactHelper:
         self.fill_contact_firm(contact)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
         self.return_home_page()
+
+    def fill_contact_firm(self, contact):
+        self.change_field_value("firstname", contact.first_name)
+        self.change_field_value("lastname", contact.last_name)
+        self.change_field_value("middlename", contact.middle_name)
+        self.change_field_value("address", contact.address)
+        self.change_field_value("email", contact.email)
+        self.change_field_value("mobile", contact.phone_mobile)
+
+    def change_field_value(self, field_name, text):
+        wd = self.appcontact.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_contact(self):
         wd = self.appcontact.wd

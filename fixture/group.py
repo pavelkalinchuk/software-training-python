@@ -7,16 +7,10 @@ class GroupHelper:
         self.appgroup = appgroup
 
     def fill_group_firm(self, group):
-        wd = self.appgroup.wd
+        # wd = self.appgroup.wd
         self.change_field_value("group_name", group.name)
         self.change_field_value("group_header", group.header)
         self.change_field_value("group_footer", group.footer)
-        # wd.find_element_by_name("group_header").click()
-        # wd.find_element_by_name("group_header").clear()
-        # wd.find_element_by_name("group_header").send_keys(group.header)
-        # wd.find_element_by_name("group_footer").click()
-        # wd.find_element_by_name("group_footer").clear()
-        # wd.find_element_by_name("group_footer").send_keys(group.footer)
 
     def change_field_value(self, field_name, text):
         wd = self.appgroup.wd
