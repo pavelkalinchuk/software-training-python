@@ -8,6 +8,7 @@ class ContactHelper:
 
     def add_new_contact(self, contact):
         wd = self.appcontact.wd
+        self.open_page_with_contacts()
         wd.find_element_by_link_text("add new").click()
         self.fill_contact_firm(contact)
         wd.find_element_by_name("submit").click()
@@ -15,6 +16,7 @@ class ContactHelper:
 
     def modify_contact(self, contact):
         wd = self.appcontact.wd
+        self.open_page_with_contacts()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact_firm(contact)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
@@ -35,8 +37,13 @@ class ContactHelper:
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
+    def open_page_with_contacts(self):
+        wd = self.appcontact.wd
+        wd.find_element_by_link_text("home").click()
+
     def delete_first_contact(self):
         wd = self.appcontact.wd
+        self.open_page_with_contacts()
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
@@ -44,6 +51,7 @@ class ContactHelper:
 
     def delete_all_contacts(self):
         wd = self.appcontact.wd
+        self.open_page_with_contacts()
         wd.find_element_by_id("MassCB").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
