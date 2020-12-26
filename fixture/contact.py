@@ -13,6 +13,7 @@ class ContactHelper:
         self.fill_contact_firm(contact)
         wd.find_element_by_name("submit").click()
         self.return_home_page()
+        time.sleep(2)
 
     def modify_contact(self, contact):
         wd = self.appcontact.wd
@@ -63,3 +64,8 @@ class ContactHelper:
         wd.find_element_by_link_text("home page").click()
         # Timeout for watching result
         time.sleep(2)
+
+    def count(self):
+        wd = self.appcontact.wd
+        self.open_page_with_contacts()
+        return len(wd.find_elements_by_name("selected[]"))
