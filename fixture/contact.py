@@ -14,6 +14,7 @@ class ContactHelper:
         self.fill_contact_firm(contact)
         wd.find_element_by_name("submit").click()
         self.return_home_page()
+        self.contact_cache = None
         time.sleep(2)
 
     def modify_contact(self, contact):
@@ -23,6 +24,7 @@ class ContactHelper:
         self.fill_contact_firm(contact)
         wd.find_element_by_xpath("(//input[@name='update'])[2]").click()
         self.return_home_page()
+        self.contact_cache = None
 
     def fill_contact_firm(self, contact):
         self.change_field_value("firstname", contact.first_name)
@@ -51,6 +53,7 @@ class ContactHelper:
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
         time.sleep(2)
 
     def delete_all_contacts(self):
@@ -59,6 +62,7 @@ class ContactHelper:
         wd.find_element_by_id("MassCB").click()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
+        self.contact_cache = None
         time.sleep(2)
 
     def return_home_page(self):
@@ -73,16 +77,19 @@ class ContactHelper:
         self.open_page_with_contacts()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        wd = self.appcontact.wd
-        self.open_page_with_contacts()
-        contacts = []
-        for element1, element2, element3 in zip(
-                wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[3]"),
-                wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[2]"),
-                wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[@class='center']//input")):
-            first_name = element1.text
-            last_name = element2.text
-            id_ = element3.get_attribute("value")
-            contacts.append(Contact(first_name=first_name, last_name=last_name, id=id_))
-        return contacts
+        if self.contact_cache is None:
+            wd = self.appcontact.wd
+            self.open_page_with_contacts()
+            self.contact_cache = []
+            for element1, element2, element3 in zip(
+                    wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[3]"),
+                    wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[2]"),
+                    wd.find_elements_by_xpath("//table[@id='maintable']/tbody/tr/td[@class='center']//input")):
+                first_name = element1.text
+                last_name = element2.text
+                id_ = element3.get_attribute("value")
+                self.contact_cache.append(Contact(first_name=first_name, last_name=last_name, id=id_))
+        return list(self.contact_cache)  # возвращаем копию кэша
