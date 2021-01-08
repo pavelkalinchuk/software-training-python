@@ -51,6 +51,17 @@ class GroupHelper:
         self.group_cache = None
         time.sleep(2)
 
+    def modify_group_by_index(self, index, group):
+        wd = self.appgroup.wd
+        self.open_page_with_groups()
+        self.select_group_by_index(index)
+        wd.find_element_by_xpath("(//input[@name='edit'])[2]").click()
+        self.fill_group_firm(group)
+        wd.find_element_by_name("update").click()
+        self.return_groups_page()
+        self.group_cache = None
+        time.sleep(2)
+
     def select_first_group(self):
         wd = self.appgroup.wd
         wd.find_element_by_name("selected[]").click()
