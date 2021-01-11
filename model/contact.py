@@ -9,6 +9,9 @@ class Contact:
                  address=None,
                  email=None,
                  phone_mobile=None,
+                 phone_home=None,
+                 phone_work=None,
+                 phone_secondary=None,
                  id=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -16,6 +19,9 @@ class Contact:
         self.address = address
         self.email = email
         self.phone_mobile = phone_mobile
+        self.phone_home = phone_home
+        self.phone_work = phone_work
+        self.phone_secondary = phone_secondary
         self.id = id
 
     def __repr__(self):

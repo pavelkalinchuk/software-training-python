@@ -12,9 +12,9 @@ def test_modify_contact(app):
     old_contacts = app.contact.get_contact_list()
     index = randrange(len(old_contacts))
     contact = Contact(
-        first_name="Иван_modify",
-        last_name="Иванов_modify",
-        address="Москва, ул. Тестовая, 1 _modify")
+        first_name="first_name modify",
+        last_name="last_name modify",
+        address="address _modify")
     contact.id = old_contacts[index].id
     app.contact.modify_contact_by_index(index, contact)
     new_contacts = app.contact.get_contact_list()
