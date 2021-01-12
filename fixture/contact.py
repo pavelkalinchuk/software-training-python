@@ -114,14 +114,12 @@ class ContactHelper:
                 address = cells[3].text
                 id_ = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text
-                # all_mails = cells[4].text.splitlines()
                 all_mails = cells[4].text
                 self.contact_cache.append(Contact(
                     first_name=first_name,
                     last_name=last_name,
                     address=address,
                     id=id_,
-                    # email=all_mails[0],
                     all_mails_from_home_page=all_mails,
                     all_phones_from_home_page=all_phones))
         return list(self.contact_cache)  # возвращаем копию кэша
