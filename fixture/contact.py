@@ -112,15 +112,12 @@ class ContactHelper:
                 first_name = cells[2].text
                 last_name = cells[1].text
                 id_ = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                all_phones = cells[5].text.splitlines()
+                all_phones = cells[5].text
                 self.contact_cache.append(Contact(
                     first_name=first_name,
                     last_name=last_name,
                     id=id_,
-                    phone_home=all_phones[0],
-                    phone_mobile=all_phones[1],
-                    phone_work=all_phones[2],
-                    phone_secondary=all_phones[3]))
+                    all_phones_from_home_page=all_phones))
         return list(self.contact_cache)  # возвращаем копию кэша
 
     def get_contact_info_from_edit_page(self, index):
@@ -155,8 +152,6 @@ class ContactHelper:
             phone_mobile=mobilephone,
             phone_work=workphone,
             phone_secondary=secondaryphone)
-
-
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.appcontact.wd

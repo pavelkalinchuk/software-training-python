@@ -12,6 +12,7 @@ class Contact:
                  phone_home=None,
                  phone_work=None,
                  phone_secondary=None,
+                 all_phones_from_home_page=None,
                  id=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -22,6 +23,7 @@ class Contact:
         self.phone_home = phone_home
         self.phone_work = phone_work
         self.phone_secondary = phone_secondary
+        self.all_phones_from_home_page = all_phones_from_home_page
         self.id = id
 
     def __repr__(self):
