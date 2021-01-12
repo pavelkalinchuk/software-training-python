@@ -8,6 +8,9 @@ class Contact:
                  middle_name=None,
                  address=None,
                  email=None,
+                 email2=None,
+                 email3=None,
+                 all_mails_from_home_page=None,
                  phone_mobile=None,
                  phone_home=None,
                  phone_work=None,
@@ -19,6 +22,9 @@ class Contact:
         self.middle_name = middle_name
         self.address = address
         self.email = email
+        self.email2 = email2
+        self.email3 = email3
+        self.all_mails_from_home_page = all_mails_from_home_page
         self.phone_mobile = phone_mobile
         self.phone_home = phone_home
         self.phone_work = phone_work

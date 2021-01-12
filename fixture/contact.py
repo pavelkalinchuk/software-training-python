@@ -111,12 +111,18 @@ class ContactHelper:
                 cells = row.find_elements_by_tag_name("td")
                 first_name = cells[2].text
                 last_name = cells[1].text
+                address = cells[3].text
                 id_ = cells[0].find_element_by_tag_name("input").get_attribute("value")
                 all_phones = cells[5].text
+                # all_mails = cells[4].text.splitlines()
+                all_mails = cells[4].text
                 self.contact_cache.append(Contact(
                     first_name=first_name,
                     last_name=last_name,
+                    address=address,
                     id=id_,
+                    # email=all_mails[0],
+                    all_mails_from_home_page=all_mails,
                     all_phones_from_home_page=all_phones))
         return list(self.contact_cache)  # возвращаем копию кэша
 
@@ -125,6 +131,10 @@ class ContactHelper:
         self.open_contact_to_edit_by_index(index)
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
+        email = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         id_ = wd.find_element_by_name("id").get_attribute("value")
         homephone = wd.find_element_by_name("home").get_attribute("value")
         mobilephone = wd.find_element_by_name("mobile").get_attribute("value")
@@ -133,7 +143,11 @@ class ContactHelper:
         return Contact(
             first_name=firstname,
             last_name=lastname,
+            address=address,
             id=id_,
+            email=email,
+            email2=email2,
+            email3=email3,
             phone_home=homephone,
             phone_mobile=mobilephone,
             phone_work=workphone,
