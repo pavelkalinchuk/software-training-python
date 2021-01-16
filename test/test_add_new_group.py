@@ -10,7 +10,7 @@ def random_string(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
-testdate = [
+testdata = [
                Group(name=random_string("name", 10),
                      header=random_string("header", 20),
                      footer=random_string("footer", 10))
@@ -18,7 +18,7 @@ testdate = [
            ] + [Group(name="", header="", footer="")]
 
 
-@pytest.mark.parametrize("group", testdate, ids=[repr(x) for x in testdate])
+@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
 def test_add_new_group(app, group):
     old_groups = app.group.get_group_list()
     app.group.create(group)
