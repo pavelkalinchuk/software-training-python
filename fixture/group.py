@@ -79,6 +79,16 @@ class GroupHelper:
         self.group_cache = None
         time.sleep(2)
 
+    def delete_all_group(self):
+        wd = self.appgroup.wd
+        self.open_page_with_groups()
+        for i in range(len(wd.find_elements_by_name("selected[]"))):
+            wd.find_element_by_name("selected[]").click()
+            wd.find_element_by_name("delete").click()
+            wd.find_element_by_link_text("group page").click()
+        self.group_cache = None
+        time.sleep(2)
+
     def delete_group_by_index(self, index):
         wd = self.appgroup.wd
         self.open_page_with_groups()
