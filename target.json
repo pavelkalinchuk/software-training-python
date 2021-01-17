@@ -1,0 +1,5 @@
+{
+  "baseURL": "http:/localhost/addressbook/",
+  "login": "admin",
+  "password": "secret"
+}
