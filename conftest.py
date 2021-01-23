@@ -1,5 +1,6 @@
 import pytest
 import json
+import jsonpickle
 import os.path
 import importlib
 from fixture.application import Application
@@ -39,12 +40,19 @@ def pytest_addoption(parser):
 
 
 def pytest_generate_tests(metafunc):
-    for fixture in metafunc.fixturenames:
-        if fixture.startswith("data_"):
-            testdata = load_from_module(fixture[5:])
-            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+    for fixture_ in metafunc.fixturenames:
+        if fixture_.startswith("data_"):  # брать тестовые данные из data/groups.py (статические данные)
+            testdata = load_from_module(fixture_[5:])
+            metafunc.parametrize(fixture_, testdata, ids=[str(x) for x in testdata])
+        elif fixture_.startswith("json_"):  # брать тестовые данные из data/groups.json (файл создается генератором)
+            testdata = load_from_json(fixture_[5:])
+            metafunc.parametrize(fixture_, testdata, ids=[str(x) for x in testdata])
 
 
 def load_from_module(module):
     return importlib.import_module("data.%s" % module).testdata
 
+
+def load_from_json(file):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
+        return jsonpickle.decode(f.read())

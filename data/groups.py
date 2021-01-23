@@ -2,6 +2,6 @@
 from model.group import Group
 
 testdata = [
-    Group(name="name1", header="header1", footer="footer1"),
-    Group(name="name2", header="header2", footer="footer2")
+    Group(name="data_name1", header="data_header1", footer="data_footer1"),
+    Group(name="data_name2", header="data_header2", footer="data_footer2")
 ]
