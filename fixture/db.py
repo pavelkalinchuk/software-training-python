@@ -9,19 +9,19 @@ class DbFixture:
         self.database = database,
         self.user = user,
         self.password = password
-        self.connection = pymysql.connect(host=host, database=database, user=user, password=password)
+        self.connection = pymysql.connect(host=host, database=database, user=user, password=password, autocommit=True)
 
     def get_group_list(self):
-        list = []
+        list_groups = []
         cursor = self.connection.cursor()
         try:
             cursor.execute("select group_id, group_name, group_header, group_footer from group_list")
             for row in cursor:
-                (id, name, header, footer) = row
-                list.append(Group(id=str(id), name=name, header=header, footer=footer))
+                (id_, name, header, footer) = row
+                list_groups.append(Group(id=str(id_), name=name, header=header, footer=footer))
         finally:
             cursor.close()
-        return list
+        return list_groups
 
     def destroy(self):
         self.connection.close()

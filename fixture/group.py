@@ -1,4 +1,3 @@
-import time
 from model.group import Group
 
 
@@ -35,7 +34,6 @@ class GroupHelper:
         wd.find_element_by_name("submit").click()
         self.return_groups_page()
         self.group_cache = None
-        time.sleep(2)
 
     def modify_group(self, group):
         wd = self.appgroup.wd
@@ -49,7 +47,6 @@ class GroupHelper:
         wd.find_element_by_name("update").click()
         self.return_groups_page()
         self.group_cache = None
-        time.sleep(2)
 
     def modify_group_by_index(self, index, group):
         wd = self.appgroup.wd
@@ -60,7 +57,16 @@ class GroupHelper:
         wd.find_element_by_name("update").click()
         self.return_groups_page()
         self.group_cache = None
-        time.sleep(2)
+
+    def modify_group_by_id(self, id_, group_update):
+        wd = self.appgroup.wd
+        self.open_page_with_groups()
+        self.select_group_by_id(id_)
+        wd.find_element_by_xpath("(//input[@name='edit'])[2]").click()
+        self.fill_group_firm(group_update)
+        wd.find_element_by_name("update").click()
+        self.return_groups_page()
+        self.group_cache = None
 
     def select_first_group(self):
         wd = self.appgroup.wd
@@ -70,6 +76,10 @@ class GroupHelper:
         wd = self.appgroup.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_group_by_id(self, id):
+        wd = self.appgroup.wd
+        wd.find_element_by_css_selector("input[value = '%s' ]" % id).click()
+
     def delete_first_group(self):
         wd = self.appgroup.wd
         self.open_page_with_groups()
@@ -77,7 +87,6 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_groups_page()
         self.group_cache = None
-        time.sleep(2)
 
     def delete_all_group(self):
         wd = self.appgroup.wd
@@ -87,7 +96,6 @@ class GroupHelper:
             wd.find_element_by_name("delete").click()
             wd.find_element_by_link_text("group page").click()
         self.group_cache = None
-        time.sleep(2)
 
     def delete_group_by_index(self, index):
         wd = self.appgroup.wd
@@ -96,7 +104,14 @@ class GroupHelper:
         wd.find_element_by_name("delete").click()
         self.return_groups_page()
         self.group_cache = None
-        time.sleep(2)
+
+    def delete_group_by_id(self, id):
+        wd = self.appgroup.wd
+        self.open_page_with_groups()
+        self.select_group_by_id(id)
+        wd.find_element_by_name("delete").click()
+        self.return_groups_page()
+        self.group_cache = None
 
     def return_groups_page(self):
         wd = self.appgroup.wd
