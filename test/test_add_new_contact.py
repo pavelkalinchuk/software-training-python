@@ -3,7 +3,7 @@ from model.contact import Contact
 
 
 def test_add_man_contact(app, db,
-                         json_contacts):  # для выбора источника тестовых данных указать или "data_groups" или "json_groups"
+                         json_contacts, check_ui):  # для выбора источника тестовых данных указать или "data_groups" или "json_groups"
     contacts = json_contacts
     old_contacts = db.get_contact_list()
     app.contact.add_new_contact(contacts)
@@ -13,3 +13,6 @@ def test_add_man_contact(app, db,
     assert sorted(
         old_contacts, key=Contact.id_or_max) == sorted(
         new_contacts, key=Contact.id_or_max)
+    if check_ui:
+        assert sorted(new_contacts, key=Contact.id_or_max) == sorted(app.contact.get_contact_list(),
+                                                                     key=Contact.id_or_max)
