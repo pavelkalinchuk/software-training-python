@@ -143,7 +143,8 @@ class ContactHelper:
                     id=id_,
                     all_mails_from_home_page=all_mails,
                     all_phones_from_home_page=all_phones))
-        return list(self.contact_cache)  # возвращаем копию кэша
+        list_ = sorted(self.contact_cache, key=lambda contact: contact.id)
+        return list_  # возвращаем копию кэша
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.appcontact.wd
@@ -197,10 +198,6 @@ class ContactHelper:
         wd = self.appcontact.wd
         self.open_page_with_contacts()
         wd.find_element_by_xpath("//a[@href='edit.php?id=%s']" % id_).click()
-        # wd.find_element_by_partial_link_text("Next")
-        # row = wd.find_elements_by_name("entry")[id_]
-        # cell = row.find_elements_by_tag_name("td")[7]
-        # cell.find_element_by_tag_name("a").click()
 
     def open_contact_to_view_by_index(self, index):
         wd = self.appcontact.wd
