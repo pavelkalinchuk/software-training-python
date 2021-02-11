@@ -72,6 +72,11 @@ class ContactHelper:
         wd = self.appcontact.wd
         wd.find_element_by_css_selector("input[value = '%s' ]" % id_).click()
 
+    def select_contact_by_index(self):
+        wd = self.appcontact.wd
+        index = 0
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def delete_first_contact(self):
         wd = self.appcontact.wd
         self.open_page_with_contacts()
@@ -109,10 +114,28 @@ class ContactHelper:
         self.contact_cache = None
         time.sleep(2)
 
+    def add_contact_in_group(self, contact, group):
+        wd = self.appcontact.wd
+        self.open_page_with_contacts()
+        self.select_contact_by_id(contact)
+        wd.find_element_by_name("to_group").click()
+        wd.find_element_by_xpath("(//option[@value='%s'])[2]" % group).click()
+        wd.find_element_by_name("add").click()
+
+    def delete_contact_from_group(self, contact, group):
+        wd = self.appcontact.wd
+        self.open_page_with_contacts()
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("(//option[@value='%s'])" % group).click()
+        wd.find_element_by_id(contact).click()
+        # self.select_contact_by_id(contact)
+        wd.find_element_by_name("remove").click()
+        time.sleep(3)
+
     def return_home_page(self):
         wd = self.appcontact.wd
         # Return home page
-        wd.find_element_by_link_text("home page").click()
+        wd.find_element_by_link_text("home").click()
         # Timeout for watching result
         time.sleep(2)
 

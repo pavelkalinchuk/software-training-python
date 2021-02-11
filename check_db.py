@@ -1,5 +1,6 @@
 from fixture.orm import ORMFixture
 from model.group import Group
+import random
 
 db = ORMFixture(host="localhost", database="addressbook", user="root", password="")
 '''
@@ -19,14 +20,16 @@ try:
     for item in l:
         print(item)
     print("*** Total groups count: " + str(len(l)) + " ***" + "\n" + "-" * 10)
-    l = db.get_contacts_in_group(Group(id="542"))
+    l = db.get_contacts_in_group(Group(id="546"))
     for item in l:
         print(item)
     print("*** Total contacts in group count: " + str(len(l)) + " ***" + "\n" + "-" * 10)
-    l = db.get_contacts_not_in_group(Group(id="542"))
+    l = db.get_contacts_not_in_group(Group(id="546"))
     for item in l:
         print(item)
     print("*** Total contacts not in group count: " + str(len(l)) + " ***" + "\n" + "-" * 10)
     print("*** END ***" + "\n")
+    a = db.get_group_list()
+    print(random.choice(a).id)
 finally:
     pass
