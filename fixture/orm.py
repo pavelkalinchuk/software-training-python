@@ -73,12 +73,15 @@ class ORMFixture:
     @db_session
     def create_contactid_list_from_contacts_not_in_group(self):
         contact_id = []
+        new_contact_id = []
         for i in self.create_groupid_list():
             l = self.get_contacts_not_in_group(Group(id=i))
             for item in l:
-                if item.id not in contact_id:
-                    contact_id.append(item.id)
-        return contact_id
+                contact_id.append(item.id)
+        for i in contact_id:
+            if contact_id.count(i) == len(self.get_group_list()) and i not in new_contact_id:
+                new_contact_id.append(i)
+        return new_contact_id
 
     @db_session
     def create_contactid_list(self):

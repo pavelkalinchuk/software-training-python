@@ -1,22 +1,67 @@
+from fixture.contact import Contact
 from fixture.group import Group
 from fixture.orm import ORMFixture
-import random
 
 db = ORMFixture(host="localhost", database="addressbook", user="root", password="")
 
 
 def test_delete_contact_from_group(app):
-    # create group.id list
-    group = db.get_group_list()
-    group_id = []
-    for i in group:
-        group_id.append(i.id)
-    # create contact.id list from contacts not in group
-    contact_id = []
-    for i in group_id:
-        l = db.get_contacts_in_group(Group(id=i))
-        for item in l:
-            if item.id not in contact_id:
-                contact_id.append(item.id)
-                if len(contact_id) > 0:
-                    app.contact.delete_contact_from_group(item.id, i)
+    if len(db.get_group_list()) == 0 and len(db.get_contact_list()) == 0:
+        app.group.create(Group(name="test_for_add_contact_in_group"))
+        app.contact.add_new_contact(Contact(
+            first_name="Test",
+            last_name="add contact in group",
+            email="add_in_group@mail.com"))
+        group_id = db.create_groupid_list()[0]
+        contact_id = db.create_contactid_list_from_contacts_not_in_group()[0]
+        app.contact.add_contact_in_group(contact_id, group_id)
+        assert len(db.get_contacts_in_group(Group(id=group_id))) > 0
+        assert contact_id in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+        app.contact.delete_contact_from_group(contact_id, group_id)
+        assert contact_id in db.create_contactid_list_from_contacts_not_in_group()
+        assert contact_id not in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+
+    elif len(db.get_group_list()) == 0 and len(db.get_contact_list()) > 0:
+        app.group.create(Group(name="test_for_add_contact_in_group"))
+        group_id = db.create_groupid_list()[0]
+        contact_id = db.create_contactid_list_from_contacts_not_in_group()[0]
+        app.contact.add_contact_in_group(contact_id, group_id)
+        assert len(db.get_contacts_in_group(Group(id=group_id))) > 0
+        assert contact_id in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+        app.contact.delete_contact_from_group(contact_id, group_id)
+        assert contact_id in db.create_contactid_list_from_contacts_not_in_group()
+        assert contact_id not in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+
+    elif len(db.get_group_list()) > 0 and len(db.get_contact_list()) == 0:
+        app.contact.add_new_contact(Contact(
+            first_name="Test",
+            last_name="add contact in group",
+            email="add_in_group@mail.com"))
+        group_id = db.create_groupid_list()[0]
+        contact_id = db.create_contactid_list_from_contacts_not_in_group()[0]
+        app.contact.add_contact_in_group(contact_id, group_id)
+        assert len(db.get_contacts_in_group(Group(id=group_id))) > 0
+        assert contact_id in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+        app.contact.delete_contact_from_group(contact_id, group_id)
+        assert contact_id in db.create_contactid_list_from_contacts_not_in_group()
+        assert contact_id not in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+
+    elif len(db.get_group_list()) > 0 and len(db.get_contact_list()) > 0:
+        if len(db.get_contact_list()) == len(db.create_contactid_list_from_contacts_not_in_group()):
+            group_id = db.create_groupid_list()[0]
+            contact_id = db.create_contactid_list_from_contacts_not_in_group()[0]
+            app.contact.add_contact_in_group(contact_id, group_id)
+            assert contact_id in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+            for i in db.create_groupid_list():
+                if len(db.create_contactid_list_contacts_in_group(Group(id=i))) > 0:
+                    contact_id = db.create_contactid_list_contacts_in_group(Group(id=i))[0]
+                    app.contact.delete_contact_from_group(contact_id, i)
+                    assert contact_id in db.create_contactid_list_from_contacts_not_in_group()
+                    assert contact_id not in db.create_contactid_list_contacts_in_group(Group(id=group_id))
+        else:
+            for i in db.create_groupid_list():
+                if len(db.create_contactid_list_contacts_in_group(Group(id=i))) > 0:
+                    contact_id = db.create_contactid_list_contacts_in_group(Group(id=i))[0]
+                    app.contact.delete_contact_from_group(contact_id, i)
+                    assert contact_id in db.create_contactid_list_from_contacts_not_in_group()
+                    assert contact_id not in db.create_contactid_list_contacts_in_group(Group(id=group_id))
