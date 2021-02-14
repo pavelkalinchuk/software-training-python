@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pony.orm import *
 from datetime import datetime
+
+from pony.orm import *
+
 from model.contact import Contact
 from model.group import Group
 
@@ -60,3 +62,34 @@ class ORMFixture:
     def get_contacts_not_in_group(self, group):
         orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
         return self.convert_contacts_to_model(select(c for c in ORMFixture.ORMContact if orm_group not in c.groups))
+
+    @db_session
+    def create_groupid_list(self):
+        group_id = []
+        for i in self.get_group_list():
+            group_id.append(i.id)
+        return group_id
+
+    @db_session
+    def create_contactid_list_from_contacts_not_in_group(self):
+        contact_id = []
+        for i in self.create_groupid_list():
+            l = self.get_contacts_not_in_group(Group(id=i))
+            for item in l:
+                if item.id not in contact_id:
+                    contact_id.append(item.id)
+        return contact_id
+
+    @db_session
+    def create_contactid_list(self):
+        contact_id = []
+        for i in self.get_contact_list():
+            contact_id.append(i.id)
+        return contact_id
+
+    @db_session
+    def create_contactid_list_contacts_in_group(self, group):
+        contact_id = []
+        for i in self.get_contacts_in_group(group):
+            contact_id.append(i.id)
+        return contact_id

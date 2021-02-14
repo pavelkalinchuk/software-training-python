@@ -17,7 +17,6 @@ class ContactHelper:
         wd.find_element_by_name("submit").click()
         self.return_home_page()
         self.contact_cache = None
-        time.sleep(2)
 
     def modify_contact(self, contact):
         wd = self.appcontact.wd
