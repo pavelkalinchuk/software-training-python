@@ -2,7 +2,7 @@ selenium
 pony
 pytest
 pytest_bdd
-pytest-allure-adaptor
+pytest-allure-adaptor2
 jsonpickle
 pymysql
 mysql-connector-python-rf
